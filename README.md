@@ -1,97 +1,222 @@
-# Chippin - Share Bills. Stay Chill.
+# Chippin - Share Bills. Stay Chill. 💰
 
-A mobile-first finance splitting app built with Flutter that helps users auto-split bills, scan receipts using OCR, export summaries, and sync their data securely.
+A cross-platform finance splitter app that lets friends split bills, scan receipts, track balances, and settle up — even offline.
 
-## Features
+![Flutter](https://img.shields.io/badge/Flutter-3.6+-02569B?logo=flutter)
+![Django](https://img.shields.io/badge/Django-5.0+-092E20?logo=django)
+![Firebase](https://img.shields.io/badge/Firebase-Auth-FFCA28?logo=firebase)
+![License](https://img.shields.io/badge/License-MIT-green)
+
+## ✨ Features
 
 ### Core Features
-- **Group Creation**: Create groups and add members via email or invite codes
-- **Auto Bill Splitting**: Split bills equally or with custom amounts
-- **OCR Receipt Scanner**: Upload or capture receipt images for automatic parsing
-- **Offline-First**: Local SQLite storage with cloud sync capability
-- **Export Options**: Export group expenses as PDF or CSV
-- **Real-time Balances**: Track who owes what in each group
 
-### Tech Stack
-- **Frontend**: Flutter (cross-platform)
-- **Local Database**: SQLite
-- **State Management**: Provider
-- **Image Processing**: Image Picker + OCR ready
-- **UI Design**: Material Design 3 with custom theme
+- **👥 Group Expense Sharing** - Create groups and invite friends via QR code or link
+- **💸 Flexible Splitting** - Equal, percentage, or exact amount splits
+- **📷 Receipt Scanning** - OCR-powered receipt scanning using Google ML Kit
+- **📊 Balance Tracking** - Real-time "who owes whom" calculations
+- **🔄 Offline-First** - Works without internet, syncs when online
+- **📱 Cross-Platform** - Android and iOS support
 
-## Getting Started
+### Additional Features
+
+- **📈 Analytics** - Monthly spend charts and category breakdown
+- **📤 Export** - PDF and CSV export for expense reports
+- **💱 Multi-Currency** - INR, USD, EUR, GBP support
+- **🌙 Dark Mode** - Beautiful dark and light themes
+- **⚡ Quick Presets** - Fast entry for common expenses (Uber, Zomato, etc.)
+
+## 🏗️ Architecture
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                     Flutter Mobile App                       │
+├─────────────────────────────────────────────────────────────┤
+│  Riverpod State  │  SQLite Local DB  │  Firebase Auth       │
+├─────────────────────────────────────────────────────────────┤
+│                    Sync Engine                               │
+│           (Offline-first with conflict resolution)           │
+├─────────────────────────────────────────────────────────────┤
+│                   Django REST Backend                        │
+│              (Optional - for cloud sync)                     │
+└─────────────────────────────────────────────────────────────┘
+```
+
+## 📁 Project Structure
+
+```
+Chippin/
+├── lib/                          # Flutter app source
+│   ├── main.dart                 # App entry point
+│   ├── models/                   # Data models
+│   ├── screens/                  # UI screens
+│   ├── widgets/                  # Reusable widgets
+│   ├── services/                 # Business logic
+│   ├── state/                    # Riverpod providers
+│   ├── local_db/                 # SQLite database
+│   └── theme/                    # App theming
+├── backend/                      # Django REST API
+│   ├── core/                     # Django settings
+│   └── api/                      # API endpoints
+├── android/                      # Android config
+├── ios/                          # iOS config
+└── test/                         # Tests
+```
+
+## 🚀 Getting Started
 
 ### Prerequisites
-- Flutter SDK (3.8.1 or higher)
-- Dart SDK
-- Android Studio / VS Code
-- Android/iOS device or emulator
 
-### Installation
+- **Flutter SDK** 3.6.0 or higher
+- **Python** 3.11+ (for backend)
+- **Firebase Account** (for authentication)
+- **Android Studio** or **VS Code** with Flutter extensions
 
-1. Clone the repository:
+### 1. Clone the Repository
+
 ```bash
-git clone <repository-url>
+git clone https://github.com/yourusername/chippin.git
 cd chippin
 ```
 
-2. Install dependencies:
-```bash
-flutter pub get
-```
+### 2. Firebase Setup
 
-3. Run the app:
+1. Create a Firebase project at [console.firebase.google.com](https://console.firebase.google.com)
+2. Enable **Email/Password Authentication**
+3. Add Android app and download `google-services.json`
+4. Add iOS app and download `GoogleService-Info.plist`
+5. Place files in respective platform directories:
+   - `android/app/google-services.json`
+   - `ios/Runner/GoogleService-Info.plist`
+
+### 3. Run Flutter App
+
 ```bash
+# Install dependencies
+flutter pub get
+
+# Run on connected device
 flutter run
 ```
 
-## Project Structure
+### 4. Backend Setup (Optional)
 
+```bash
+cd backend
+
+# Create virtual environment
+python -m venv venv
+source venv/bin/activate  # Linux/Mac
+# or: venv\Scripts\activate  # Windows
+
+# Install dependencies
+pip install -r requirements.txt
+
+# Set up environment
+cp .env.example .env
+# Edit .env with your settings
+
+# Run migrations
+python manage.py migrate
+
+# Start server
+python manage.py runserver
 ```
-lib/
-├── core/
-│   ├── database/          # SQLite database helper
-│   ├── models/           # Data models (Group, Member, Expense)
-│   ├── providers/        # State management
-│   └── theme/           # App theme and styling
-└── screens/             # UI screens
-    ├── home_screen.dart
-    ├── create_group_screen.dart
-    ├── group_detail_screen.dart
-    └── add_expense_screen.dart
+
+## 📱 App Screens
+
+| Screen | Description |
+|--------|-------------|
+| **Welcome** | Sign up, login, or continue as guest |
+| **Groups List** | View and manage expense groups |
+| **Group Detail** | Expenses, balances, and activity tabs |
+| **Add Expense** | Manual entry with split options |
+| **Scan Receipt** | Camera-based OCR scanning |
+| **Balance Summary** | Detailed who-owes-whom view |
+| **Analytics** | Spending charts and insights |
+| **Export** | PDF/CSV export options |
+
+## 🧪 Running Tests
+
+### Flutter Tests
+
+```bash
+flutter test
 ```
 
-## Roadmap
+### Backend Tests
 
-### Phase 1 (Current)
-- ✅ Basic group and expense management
-- ✅ Local SQLite storage
-- ✅ Clean UI with Material Design 3
-- 🔄 OCR receipt processing
-- 🔄 PDF/CSV export functionality
+```bash
+cd backend
+python manage.py test api
+```
 
-### Phase 2 (Planned)
-- Firebase Authentication
-- Cloud sync with Firestore
-- Push notifications
-- Advanced splitting options
-- Receipt image storage
+## 🔧 Configuration
 
-### Phase 3 (Future)
-- Django REST API backend
-- Multi-currency support
-- Expense categories
-- Analytics and insights
-- Web dashboard
+### Environment Variables (Backend)
 
-## Contributing
+Create a `.env` file in the `backend` directory:
+
+```env
+DEBUG=True
+SECRET_KEY=your-secret-key
+DATABASE_URL=sqlite:///db.sqlite3
+FIREBASE_CREDENTIALS_PATH=path/to/firebase-credentials.json
+ALLOWED_HOSTS=localhost,127.0.0.1
+CORS_ALLOWED_ORIGINS=http://localhost:3000
+```
+
+### API Base URL (Mobile)
+
+Update the API URL in `lib/services/api_service.dart`:
+
+```dart
+static const String baseUrl = 'http://your-backend-url/api';
+```
+
+## 📊 Database Schema
+
+### Local SQLite (Mobile)
+
+- `users` - User accounts
+- `groups` - Expense groups
+- `group_members` - Group memberships
+- `expenses` - Expense records
+- `expense_splits` - Split details
+- `settlements` - Settlement records
+- `pending_sync` - Offline sync queue
+
+### Backend (PostgreSQL/SQLite)
+
+- Same schema with additional sync metadata
+
+## 🔐 Security
+
+- Firebase Authentication for secure login
+- JWT tokens for API authentication
+- Sensitive data encrypted locally
+- No passwords stored in plain text
+
+## 🤝 Contributing
 
 1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Test thoroughly
-5. Submit a pull request
+2. Create feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit changes (`git commit -m 'Add amazing feature'`)
+4. Push to branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
 
-## License
+## 📄 License
 
-This project is licensed under the MIT License.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 🙏 Acknowledgments
+
+- [Flutter](https://flutter.dev) - Cross-platform framework
+- [Django REST Framework](https://www.django-rest-framework.org) - Backend API
+- [Firebase](https://firebase.google.com) - Authentication
+- [Google ML Kit](https://developers.google.com/ml-kit) - OCR
+- [fl_chart](https://pub.dev/packages/fl_chart) - Charts
+
+---
+
+Made with ❤️ by the Chippin Team
